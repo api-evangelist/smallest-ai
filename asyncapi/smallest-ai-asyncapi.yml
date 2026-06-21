@@ -1,0 +1,127 @@
+asyncapi: 2.6.0
+info:
+  title: Smallest AI Waves Realtime TTS (WebSocket)
+  version: '1.0'
+  description: >-
+    Realtime, bidirectional text-to-speech over WebSocket for the Smallest AI
+    Waves Lightning v2 model. The client opens a WebSocket connection, sends one
+    or more JSON text payloads, and the server streams synthesized audio back as
+    base64-encoded chunks, followed by a completion message. This is a true
+    WebSocket (wss) transport - distinct from the HTTP Server-Sent Events stream
+    documented on the same path in the OpenAPI definition.
+  contact:
+    name: Smallest AI Support
+    url: https://smallest.ai/
+    email: support@smallest.ai
+  x-transport-notes: >-
+    Transport is WebSocket (wss). Authentication is via a Bearer API key sent in
+    the Authorization header on the connection handshake. The client sends JSON
+    synthesis requests; the server replies with JSON frames carrying base64 audio
+    chunks and a final completion frame.
+servers:
+  production:
+    url: waves-api.smallest.ai/api/v1
+    protocol: wss
+    description: Waves realtime TTS WebSocket endpoint.
+    security:
+      - bearerAuth: []
+defaultContentType: application/json
+channels:
+  /lightning-v2/get_speech/stream:
+    description: >-
+      Bidirectional channel for realtime speech synthesis. The client publishes
+      synthesis requests and subscribes to streamed audio chunks and a completion
+      message.
+    publish:
+      operationId: sendSynthesisRequest
+      summary: Send text to synthesize.
+      message:
+        $ref: '#/components/messages/SynthesisRequest'
+    subscribe:
+      operationId: receiveAudio
+      summary: Receive streamed audio chunks and completion.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/AudioChunk'
+          - $ref: '#/components/messages/StreamComplete'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Waves API key passed as a Bearer token on the WebSocket handshake.
+  messages:
+    SynthesisRequest:
+      name: synthesisRequest
+      title: Synthesis Request
+      contentType: application/json
+      summary: A chunk of text to synthesize into speech.
+      payload:
+        $ref: '#/components/schemas/SynthesisRequest'
+    AudioChunk:
+      name: audioChunk
+      title: Audio Chunk
+      contentType: application/json
+      summary: A base64-encoded audio chunk produced for the submitted text.
+      payload:
+        $ref: '#/components/schemas/AudioChunk'
+    StreamComplete:
+      name: streamComplete
+      title: Stream Complete
+      contentType: application/json
+      summary: Signals that all audio for the request has been delivered.
+      payload:
+        $ref: '#/components/schemas/StreamComplete'
+  schemas:
+    SynthesisRequest:
+      type: object
+      required:
+        - text
+        - voice_id
+      properties:
+        text:
+          type: string
+          description: The text to convert to speech.
+          example: Modern problems require modern solutions.
+        voice_id:
+          type: string
+          description: Identifier of the voice to synthesize with.
+          example: meher
+        model:
+          type: string
+          description: The Lightning streaming model pool.
+          default: lightning-v2
+        sample_rate:
+          type: integer
+          description: Output audio sample rate in Hz.
+          default: 24000
+        speed:
+          type: number
+          format: float
+          description: Speech rate multiplier; 1.0 is normal speed.
+          default: 1.0
+        language:
+          type: string
+          description: Language code for synthesis.
+          default: en
+    AudioChunk:
+      type: object
+      description: A streamed segment of synthesized audio.
+      properties:
+        audio:
+          type: string
+          format: byte
+          description: Base64-encoded raw PCM audio chunk.
+        status:
+          type: string
+          description: Per-chunk status indicator, when present.
+    StreamComplete:
+      type: object
+      description: Terminal message indicating the stream has finished.
+      properties:
+        status:
+          type: string
+          example: complete
+        done:
+          type: boolean
+          example: true

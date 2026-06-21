@@ -1,0 +1,157 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Smallest AI
+providerId: smallest-ai
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- AI
+- Text to Speech
+- Voice
+- Realtime
+- Voice Agents
+- Plans
+description: >-
+  Smallest AI offers usage-based, pay-as-you-go pricing for the Waves text-to-
+  speech API billed per 1,000 characters by model (Lightning v3.1 and Lightning
+  v3.1 Pro), with Pulse speech-to-text billed per minute. Voice agents (Atoms)
+  and higher-scale needs are served through subscription plans and a custom
+  Enterprise tier. New accounts receive a small amount of free test credit.
+  Exact per-character rates, included quotas, and subscription tiers vary and are
+  not fully reconciled in this artifact.
+notes: >-
+  Representative rates observed on the Smallest AI pricing page; confirm the
+  current per-1,000-character TTS rates, per-minute STT rates, included quotas,
+  and Atoms plan tiers on the pricing page during reconciliation.
+sources:
+- https://smallest.ai/pricing
+- https://docs.smallest.ai/
+- https://atoms-docs.smallest.ai/intro/admin/billing
+plans:
+- id: smallest-ai-free
+  name: Free
+  type: free
+  description: >-
+    Entry tier with a small amount of free test credit for evaluating the Waves
+    TTS and Pulse STT APIs.
+  entries:
+  - label: Free Test Credit
+    name: free_credit
+    type: free
+    metric: credit
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: free test credit on signup
+    userMultiplied: false
+  elements:
+  - name: Text-to-Speech (Waves)
+  - name: Speech-to-Text (Pulse)
+- id: smallest-ai-pay-as-you-go
+  name: Pay-as-you-go
+  type: usage
+  description: >-
+    Character-metered TTS and minute-metered STT usage with no monthly minimum.
+  entries:
+  - label: Lightning v3.1 (TTS)
+    name: tts_lightning_v31
+    type: usage
+    metric: characters
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1000
+    price: ~$0.0145 per 1,000 characters
+    userMultiplied: false
+  - label: Lightning v3.1 Pro (TTS)
+    name: tts_lightning_v31_pro
+    type: usage
+    metric: characters
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1000
+    price: ~$0.0195 per 1,000 characters
+    userMultiplied: false
+  - label: Pulse STT (Pre-Recorded)
+    name: stt_pulse_prerecorded
+    type: usage
+    metric: minutes
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: ~$0.003 per minute
+    userMultiplied: false
+  - label: Pulse STT (Realtime)
+    name: stt_pulse_realtime
+    type: usage
+    metric: minutes
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: ~$0.004 per minute
+    userMultiplied: false
+  - label: Voice Cloning
+    name: voice_cloning
+    type: usage
+    metric: voices
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: see pricing page (standard Lightning pool)
+    userMultiplied: false
+  elements:
+  - name: Text-to-Speech (Waves)
+  - name: Streaming / Realtime TTS
+  - name: Voices / Cloning
+  - name: Speech-to-Text (Pulse)
+- id: smallest-ai-atoms
+  name: Atoms (Voice Agents)
+  type: subscription
+  description: >-
+    Subscription plans for building and running production voice agents on the
+    Atoms platform, metered by usage/credits with paid tiers above the free tier.
+  entries:
+  - label: Atoms Usage
+    name: atoms_usage
+    type: usage
+    metric: minutes
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: see Atoms billing page
+    userMultiplied: false
+  elements:
+  - name: Atoms (Voice Agents)
+- id: smallest-ai-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Built for teams running production workloads at scale: 99.99% uptime SLA,
+    priority support, on-premise deployment, HIPAA compliance, SSO/RBAC/SOC2.
+    Custom pricing - contact sales.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Custom Volume Pricing
+  - name: On-Premise Deployment
+  - name: Compliance (HIPAA, SOC2, SSO, RBAC)
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

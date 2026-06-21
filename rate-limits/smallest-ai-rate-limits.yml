@@ -1,0 +1,56 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Smallest AI
+providerId: smallest-ai
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- AI
+- Text to Speech
+- Voice
+- Realtime
+- Voice Agents
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  The Smallest AI Waves API enforces per-account limits on requests per minute
+  (RPM) and on the number of concurrent realtime/streaming connections. On the
+  pay-as-you-go tier these are documented around 100 RPM and 15 concurrent
+  streams, with higher limits available on Enterprise. Specific per-model and
+  per-tier values are not reconciled in this artifact.
+notes: >-
+  Verify per-model RPM and concurrent-stream limits on the Smallest AI pricing
+  and documentation pages during reconciliation; limits change between pay-as-
+  you-go, subscription, and Enterprise tiers.
+sources:
+- https://smallest.ai/pricing
+- https://docs.smallest.ai/
+responseCodes:
+  throttled: 429
+limits:
+- name: Requests Per Minute (RPM)
+  scope: account
+  metric: requests
+  limit: ~100 (pay-as-you-go)
+  notes: Per-account RPM on the TTS API; varies by tier.
+- name: Concurrent Streams
+  scope: account
+  metric: connections
+  limit: ~15 (pay-as-you-go)
+  notes: Maximum simultaneous SSE/WebSocket realtime TTS connections; varies by tier.
+- name: Concurrent Requests
+  scope: account
+  metric: connections
+  limit: see provider documentation
+  notes: Applies to synchronous get_speech requests; varies by tier.
+policies:
+- name: Tiered Limits
+  description: Limits raise from pay-as-you-go to subscription and Enterprise agreements.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on 429.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

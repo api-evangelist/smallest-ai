@@ -1,0 +1,79 @@
+aid: smallest-ai
+name: Smallest AI
+review:
+  question: Does Smallest AI expose a documented public WebSocket API?
+  answer: true
+  date: '2026-06-21'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: true
+  asyncapiScopeNote: |
+    Smallest AI's Waves text-to-speech API documents a true bidirectional
+    WebSocket (wss) transport for realtime, low-latency speech synthesis using
+    the Lightning v2 model. The client opens a WebSocket connection, sends JSON
+    text payloads, and the server streams back base64-encoded audio chunks
+    followed by a completion message. An AsyncAPI 2.6 document was created at
+    asyncapi/smallest-ai-asyncapi.yml modeling this WebSocket channel. The same
+    realtime surface is also offered as an HTTP Server-Sent Events (SSE) stream
+    on the same path, which is modeled in the OpenAPI definition.
+findings:
+  summary: |
+    Smallest AI publishes a documented public WebSocket API for realtime
+    text-to-speech. The Waves API at https://waves-api.smallest.ai/api/v1
+    exposes a WebSocket endpoint (wss) for the Lightning v2 model that streams
+    synthesized audio as base64 chunks, in addition to an HTTP SSE streaming
+    endpoint and standard request/response synthesis. This is distinct from
+    providers that only stream over SSE: Smallest AI's realtime TTS uses a real
+    bidirectional WebSocket transport. The Pulse speech-to-text product also
+    exposes a realtime WebSocket transcription endpoint. The newer unified API
+    surface at https://api.smallest.ai/waves/v1 (e.g. /tts, /tts/live) provides
+    the same capabilities with refreshed paths and the Lightning v3.1 model pool.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://waves-api.smallest.ai/api/v1
+      documented: true
+    - protocol: SSE
+      scheme: https
+      note: Server-Sent Events streaming TTS via POST /lightning-v2/get_speech/stream; base64 audio chunks over HTTP. Not WebSocket.
+      documented: true
+    - protocol: WebSocket
+      scheme: wss
+      documented: true
+      note: Bidirectional realtime TTS at wss://waves-api.smallest.ai/api/v1/lightning-v2/get_speech/stream; client sends JSON text, server streams base64 audio chunks then a complete message. Pulse STT also exposes a realtime WebSocket endpoint.
+  endpointsConfirmedRest:
+    - POST https://waves-api.smallest.ai/api/v1/lightning/get_speech
+    - POST https://waves-api.smallest.ai/api/v1/lightning-v2/get_speech/stream
+    - GET  https://waves-api.smallest.ai/api/v1/lightning/get_voices
+    - POST https://waves-api.smallest.ai/api/v1/lightning/add_voice
+    - GET  https://waves-api.smallest.ai/api/v1/lightning/get_cloned_voices
+    - DELETE https://waves-api.smallest.ai/api/v1/lightning/delete_voice/{voiceId}
+  endpointsConfirmedWebSocket:
+    - wss://waves-api.smallest.ai/api/v1/lightning-v2/get_speech/stream
+sources:
+  - url: https://docs.smallest.ai/waves/api-reference
+    type: APIReference
+    note: Waves API reference lists Text to Speech, Text to Speech (SSE), Text to Speech (WebSocket), Get Voices, Add your Voice, Get cloned Voices, Delete Cloned Voice.
+  - url: https://docs.smallest.ai/waves/documentation/getting-started/introduction
+    type: Documentation
+    note: Overview of the Waves TTS API, Bearer auth, base URL, and Lightning models.
+  - url: https://docs.smallest.ai/waves/documentation/text-to-speech-lightning/streaming
+    type: Documentation
+    note: Describes realtime streaming via SSE and WebSocket with base64 audio chunks.
+  - url: https://github.com/smallest-inc/cookbook
+    type: SDK
+    note: Official cookbook with TTS/STT examples, including realtime WebSocket transcription.
+  - url: https://atoms-docs.smallest.ai/
+    type: Documentation
+    note: Atoms voice-agent platform documentation and developer API.
+actions:
+  asyncapiPath: asyncapi/smallest-ai-asyncapi.yml
+  apisYmlUpdated: true
+  reason: |
+    A documented WebSocket protocol surface exists for realtime TTS. An
+    AsyncAPI 2.6 document was authored for the Lightning v2 WebSocket channel,
+    with the wss transport documented explicitly (server protocol, security,
+    info.x-transport-notes). The SSE streaming variant is modeled separately in
+    the OpenAPI definition so the two realtime transports are not conflated.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

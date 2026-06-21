@@ -1,0 +1,300 @@
+{
+  "item": [
+    {
+      "id": "1f2a3b4c-0001-4a00-9000-000000000001",
+      "name": "Text to Speech",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1f2a3b4c-0001-4a00-9000-000000000101",
+          "name": "Synthesize speech from text.",
+          "request": {
+            "name": "Synthesize speech from text.",
+            "description": {
+              "content": "Generates an audio file from the input text using a Lightning TTS model and the specified voice.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "lightning",
+                "get_speech"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/wav"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Modern problems require modern solutions.\",\n  \"voice_id\": \"meher\",\n  \"model\": \"lightning\",\n  \"sample_rate\": 24000,\n  \"speed\": 1.0,\n  \"language\": \"en\",\n  \"output_format\": \"wav\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "1f2a3b4c-0001-4a00-9000-000000000102",
+          "name": "Stream synthesized speech (SSE).",
+          "request": {
+            "name": "Stream synthesized speech (SSE).",
+            "description": {
+              "content": "Streams synthesized speech in realtime as Server-Sent Events whose data frames carry base64-encoded audio chunks. The same path is also available as a WebSocket (wss) endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "lightning-v2",
+                "get_speech",
+                "stream"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/event-stream"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Modern problems require modern solutions.\",\n  \"voice_id\": \"meher\",\n  \"model\": \"lightning-v2\",\n  \"sample_rate\": 24000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "1f2a3b4c-0002-4a00-9000-000000000002",
+      "name": "Voices",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1f2a3b4c-0002-4a00-9000-000000000201",
+          "name": "List available voices.",
+          "request": {
+            "name": "List available voices.",
+            "description": {
+              "content": "Returns the catalog of prebuilt voices available for synthesis.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "lightning",
+                "get_voices"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null,
+            "body": {}
+          },
+          "response": []
+        },
+        {
+          "id": "1f2a3b4c-0002-4a00-9000-000000000202",
+          "name": "Clone a voice.",
+          "request": {
+            "name": "Clone a voice.",
+            "description": {
+              "content": "Creates a new cloned voice from a short reference audio sample.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "lightning",
+                "add_voice"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "displayName",
+                  "value": "My Brand Voice",
+                  "type": "text"
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "id": "1f2a3b4c-0002-4a00-9000-000000000203",
+          "name": "List cloned voices.",
+          "request": {
+            "name": "List cloned voices.",
+            "description": {
+              "content": "Returns the voices that the authenticated account has cloned.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "lightning",
+                "get_cloned_voices"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null,
+            "body": {}
+          },
+          "response": []
+        },
+        {
+          "id": "1f2a3b4c-0002-4a00-9000-000000000204",
+          "name": "Delete a cloned voice.",
+          "request": {
+            "name": "Delete a cloned voice.",
+            "description": {
+              "content": "Permanently deletes a previously cloned voice owned by the account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "lightning",
+                "delete_voice",
+                ":voiceId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "voiceId",
+                  "value": "",
+                  "description": "Identifier of the cloned voice to delete."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null,
+            "body": {}
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://waves-api.smallest.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "1f2a3b4c-0000-4a00-9000-000000000000",
+    "name": "Smallest AI Waves API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Smallest AI Waves text-to-speech API.\n\nContact Support:\n Name: Smallest AI Support\n Email: support@smallest.ai",
+      "type": "text/plain"
+    }
+  }
+}

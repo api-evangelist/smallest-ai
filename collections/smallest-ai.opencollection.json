@@ -1,0 +1,110 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smallest AI Waves API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Text to Speech",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Synthesize speech from text.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://waves-api.smallest.ai/api/v1/lightning/get_speech",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"text\": \"Modern problems require modern solutions.\",\n  \"voice_id\": \"meher\",\n  \"model\": \"lightning\",\n  \"sample_rate\": 24000,\n  \"speed\": 1.0,\n  \"language\": \"en\",\n  \"output_format\": \"wav\"\n}"
+            }
+          },
+          "docs": "Generates an audio file from the input text using a Lightning TTS model and the specified voice."
+        },
+        {
+          "info": {
+            "name": "Stream synthesized speech (SSE).",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://waves-api.smallest.ai/api/v1/lightning-v2/get_speech/stream",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"text\": \"Modern problems require modern solutions.\",\n  \"voice_id\": \"meher\",\n  \"model\": \"lightning-v2\",\n  \"sample_rate\": 24000\n}"
+            }
+          },
+          "docs": "Streams synthesized speech in realtime as Server-Sent Events whose data frames carry base64-encoded audio chunks. The same path is also available as a WebSocket (wss) endpoint."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Voices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List available voices.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://waves-api.smallest.ai/api/v1/lightning/get_voices"
+          },
+          "docs": "Returns the catalog of prebuilt voices available for synthesis."
+        },
+        {
+          "info": {
+            "name": "Clone a voice.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://waves-api.smallest.ai/api/v1/lightning/add_voice",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Creates a new cloned voice from a short reference audio sample."
+        },
+        {
+          "info": {
+            "name": "List cloned voices.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://waves-api.smallest.ai/api/v1/lightning/get_cloned_voices"
+          },
+          "docs": "Returns the voices that the authenticated account has cloned."
+        },
+        {
+          "info": {
+            "name": "Delete a cloned voice.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://waves-api.smallest.ai/api/v1/lightning/delete_voice/:voiceId"
+          },
+          "docs": "Permanently deletes a previously cloned voice owned by the account."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
