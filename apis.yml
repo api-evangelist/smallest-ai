@@ -92,6 +92,14 @@ apis:
     voice agents - orchestrating Waves TTS and Pulse STT with LLM-driven
     conversation flows, exposed through a developer API and dashboard.
 common:
+- type: TrustCenter
+  url: security/smallest-ai-trust-center.yml
+- type: VulnerabilityDisclosure
+  url: security/smallest-ai-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/smallest-ai-domain-security.yml
+- type: Authentication
+  url: authentication/smallest-ai-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/smallest-inc
 - type: LinkedIn

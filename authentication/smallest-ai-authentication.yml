@@ -1,0 +1,14 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/smallest-ai-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: 'Pass your Waves API key as a Bearer token in the Authorization header: `Authorization:
+    Bearer <SMALLEST_API_KEY>`.'
+  sources:
+  - openapi/smallest-ai-openapi.yml
