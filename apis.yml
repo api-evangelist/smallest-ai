@@ -92,6 +92,8 @@ apis:
     voice agents - orchestrating Waves TTS and Pulse STT with LLM-driven
     conversation flows, exposed through a developer API and dashboard.
 common:
+- type: AgenticAccess
+  url: agentic-access/smallest-ai-agentic-access.yml
 - type: TrustCenter
   url: security/smallest-ai-trust-center.yml
 - type: VulnerabilityDisclosure
