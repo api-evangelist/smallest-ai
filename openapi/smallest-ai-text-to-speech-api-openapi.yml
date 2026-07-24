@@ -1,0 +1,132 @@
+openapi: 3.0.1
+info:
+  title: Smallest AI Waves Streaming Text to Speech API
+  description: The Smallest AI Waves text-to-speech API. Generates natural speech from text using the Lightning family of models with sub-100ms latency, streams audio in realtime over Server-Sent Events, lists prebuilt voices, and clones custom voices from short audio samples. All endpoints are authenticated with a Bearer API key. The realtime bidirectional WebSocket transport for streaming TTS is modeled in the companion AsyncAPI document (asyncapi/smallest-ai-asyncapi.yml).
+  termsOfService: https://smallest.ai/terms
+  contact:
+    name: Smallest AI Support
+    url: https://smallest.ai/
+    email: support@smallest.ai
+  version: '1.0'
+servers:
+- url: https://waves-api.smallest.ai/api/v1
+  description: Waves production API
+security:
+- bearerAuth: []
+tags:
+- name: Text to Speech
+  description: Synthesize speech from text.
+paths:
+  /lightning/get_speech:
+    post:
+      operationId: getSpeech
+      tags:
+      - Text to Speech
+      summary: Synthesize speech from text.
+      description: Generates an audio file from the input text using a Lightning TTS model and the specified voice. Returns the synthesized audio as a binary response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetSpeechRequest'
+      responses:
+        '200':
+          description: Synthesized audio.
+          content:
+            audio/wav:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  responses:
+    RateLimited:
+      description: Too many requests; the account rate limit was exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request body failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Error status indicator.
+        message:
+          type: string
+          description: Human-readable error message.
+        error:
+          type: string
+          description: Error code or detail, when present.
+    GetSpeechRequest:
+      type: object
+      required:
+      - text
+      - voice_id
+      properties:
+        text:
+          type: string
+          description: The text to convert to speech.
+          example: Modern problems require modern solutions.
+        voice_id:
+          type: string
+          description: Identifier of the voice to synthesize with.
+          example: meher
+        model:
+          type: string
+          description: The Lightning TTS model pool to use.
+          default: lightning
+          example: lightning-v2
+        sample_rate:
+          type: integer
+          description: Output audio sample rate in Hz.
+          default: 24000
+          example: 24000
+        speed:
+          type: number
+          format: float
+          description: Speech rate multiplier; 1.0 is normal speed.
+          default: 1.0
+          minimum: 0.5
+          maximum: 2.0
+        language:
+          type: string
+          description: Language code for synthesis.
+          default: en
+          example: en
+        output_format:
+          type: string
+          description: Encoding of the returned audio.
+          default: wav
+          enum:
+          - wav
+          - pcm
+          - mp3
+        add_wav_header:
+          type: boolean
+          description: Whether to prepend a WAV header to the returned audio. Set false to receive raw PCM.
+          default: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Pass your Waves API key as a Bearer token in the Authorization header: `Authorization: Bearer <SMALLEST_API_KEY>`.'

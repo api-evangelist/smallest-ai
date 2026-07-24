@@ -1,0 +1,124 @@
+openapi: 3.0.1
+info:
+  title: Smallest AI Waves Streaming API
+  description: The Smallest AI Waves text-to-speech API. Generates natural speech from text using the Lightning family of models with sub-100ms latency, streams audio in realtime over Server-Sent Events, lists prebuilt voices, and clones custom voices from short audio samples. All endpoints are authenticated with a Bearer API key. The realtime bidirectional WebSocket transport for streaming TTS is modeled in the companion AsyncAPI document (asyncapi/smallest-ai-asyncapi.yml).
+  termsOfService: https://smallest.ai/terms
+  contact:
+    name: Smallest AI Support
+    url: https://smallest.ai/
+    email: support@smallest.ai
+  version: '1.0'
+servers:
+- url: https://waves-api.smallest.ai/api/v1
+  description: Waves production API
+security:
+- bearerAuth: []
+tags:
+- name: Streaming
+  description: Realtime streaming speech synthesis.
+paths:
+  /lightning-v2/get_speech/stream:
+    post:
+      operationId: streamSpeech
+      tags:
+      - Streaming
+      summary: Stream synthesized speech (SSE).
+      description: Streams synthesized speech in realtime using the Lightning v2 model. The response is an HTTP Server-Sent Events stream whose `data:` frames each carry a JSON object containing a base64-encoded audio chunk; a final frame signals completion. The same path is also available as a bidirectional WebSocket (wss) endpoint - see the AsyncAPI document.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StreamSpeechRequest'
+      responses:
+        '200':
+          description: Server-Sent Events stream of base64 audio chunks.
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/AudioStreamChunk'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  responses:
+    RateLimited:
+      description: Too many requests; the account rate limit was exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request body failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    AudioStreamChunk:
+      type: object
+      description: JSON payload carried in each SSE `data:` frame. Frames carry a base64 audio chunk until a final frame sets `done` to true.
+      properties:
+        audio:
+          type: string
+          format: byte
+          description: Base64-encoded raw PCM audio chunk.
+        done:
+          type: boolean
+          description: True on the final frame to indicate the stream has completed.
+    StreamSpeechRequest:
+      type: object
+      required:
+      - text
+      - voice_id
+      properties:
+        text:
+          type: string
+          description: The text to stream as speech.
+        voice_id:
+          type: string
+          description: Identifier of the voice to synthesize with.
+          example: meher
+        model:
+          type: string
+          description: The Lightning streaming model pool.
+          default: lightning-v2
+        sample_rate:
+          type: integer
+          description: Output audio sample rate in Hz.
+          default: 24000
+        speed:
+          type: number
+          format: float
+          description: Speech rate multiplier; 1.0 is normal speed.
+          default: 1.0
+        language:
+          type: string
+          description: Language code for synthesis.
+          default: en
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Error status indicator.
+        message:
+          type: string
+          description: Human-readable error message.
+        error:
+          type: string
+          description: Error code or detail, when present.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Pass your Waves API key as a Bearer token in the Authorization header: `Authorization: Bearer <SMALLEST_API_KEY>`.'
