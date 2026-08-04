@@ -1,0 +1,18 @@
+{
+  "provider": "smallest-ai",
+  "sources": [
+    "smallest-ai-streaming-api-openapi.yml",
+    "smallest-ai-text-to-speech-api-openapi.yml",
+    "smallest-ai-voices-api-openapi.yml"
+  ],
+  "outputs": [
+    "smallest-ai-streaming-api-openapi.yml",
+    "smallest-ai-text-to-speech-api-openapi.yml",
+    "smallest-ai-voices-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
