@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smallest AI Waves Streaming Voices API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Voices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List available voices.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://waves-api.smallest.ai/api/v1/lightning/get_voices"
+          },
+          "docs": "Returns the catalog of prebuilt voices available for synthesis, including each voice's identifier and metadata such as language, gender, and accent."
+        },
+        {
+          "info": {
+            "name": "Clone a voice.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://waves-api.smallest.ai/api/v1/lightning/add_voice",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Creates a new cloned voice from a short reference audio sample. The resulting voice identifier can be used as the `voice_id` in synthesis requests."
+        },
+        {
+          "info": {
+            "name": "List cloned voices.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://waves-api.smallest.ai/api/v1/lightning/get_cloned_voices"
+          },
+          "docs": "Returns the voices that the authenticated account has cloned."
+        },
+        {
+          "info": {
+            "name": "Delete a cloned voice.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://waves-api.smallest.ai/api/v1/lightning/delete_voice/:voiceId",
+            "params": [
+              {
+                "name": "voiceId",
+                "value": "",
+                "type": "path",
+                "description": "Identifier of the cloned voice to delete."
+              }
+            ]
+          },
+          "docs": "Permanently deletes a previously cloned voice owned by the account."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

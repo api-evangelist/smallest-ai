@@ -1,0 +1,298 @@
+{
+  "item": [
+    {
+      "id": "0f51fb4d-3658-4c4d-92d1-d8b0342384e2",
+      "name": "Text to Speech",
+      "description": {
+        "content": "Synthesize speech from text.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "29163648-0a6e-447a-8871-f32344e9bb19",
+          "name": "Synthesize speech from text.",
+          "request": {
+            "name": "Synthesize speech from text.",
+            "description": {
+              "content": "Generates an audio file from the input text using a Lightning TTS model and the specified voice. Returns the synthesized audio as a binary response.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "lightning",
+                "get_speech"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/wav"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"<string>\",\n  \"voice_id\": \"<string>\",\n  \"model\": \"lightning\",\n  \"sample_rate\": 24000,\n  \"speed\": 1,\n  \"language\": \"en\",\n  \"output_format\": \"wav\",\n  \"add_wav_header\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fe6d4cc9-28ea-4a47-bb22-d07ceaaeabab",
+              "name": "Synthesized audio.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lightning",
+                    "get_speech"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "audio/wav"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"Modern problems require modern solutions.\",\n  \"voice_id\": \"meher\",\n  \"model\": \"lightning-v2\",\n  \"sample_rate\": 24000,\n  \"speed\": 1,\n  \"language\": \"en\",\n  \"output_format\": \"wav\",\n  \"add_wav_header\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "audio/wav"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "90ee2741-d6c5-43fc-ae93-27f06a5fb6d9",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lightning",
+                    "get_speech"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"Modern problems require modern solutions.\",\n  \"voice_id\": \"meher\",\n  \"model\": \"lightning-v2\",\n  \"sample_rate\": 24000,\n  \"speed\": 1,\n  \"language\": \"en\",\n  \"output_format\": \"wav\",\n  \"add_wav_header\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "368936c8-365d-4cad-b751-222ddf974bb5",
+              "name": "The request body failed validation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lightning",
+                    "get_speech"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"Modern problems require modern solutions.\",\n  \"voice_id\": \"meher\",\n  \"model\": \"lightning-v2\",\n  \"sample_rate\": 24000,\n  \"speed\": 1,\n  \"language\": \"en\",\n  \"output_format\": \"wav\",\n  \"add_wav_header\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bd9d31a6-49b6-4de8-b020-8ff1fa64c750",
+              "name": "Too many requests; the account rate limit was exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lightning",
+                    "get_speech"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"Modern problems require modern solutions.\",\n  \"voice_id\": \"meher\",\n  \"model\": \"lightning-v2\",\n  \"sample_rate\": 24000,\n  \"speed\": 1,\n  \"language\": \"en\",\n  \"output_format\": \"wav\",\n  \"add_wav_header\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://waves-api.smallest.ai/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8d858e53-5738-4f40-9d54-ece7fd5fab73",
+    "name": "Smallest AI Waves Streaming Text to Speech API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Smallest AI Waves text-to-speech API. Generates natural speech from text using the Lightning family of models with sub-100ms latency, streams audio in realtime over Server-Sent Events, lists prebuilt voices, and clones custom voices from short audio samples. All endpoints are authenticated with a Bearer API key. The realtime bidirectional WebSocket transport for streaming TTS is modeled in the companion AsyncAPI document (asyncapi/smallest-ai-asyncapi.yml).\n\nContact Support:\n Name: Smallest AI Support\n Email: support@smallest.ai",
+      "type": "text/plain"
+    }
+  }
+}

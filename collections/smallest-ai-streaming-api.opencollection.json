@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Smallest AI Waves Streaming API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Streaming",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Stream synthesized speech (SSE).",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://waves-api.smallest.ai/api/v1/lightning-v2/get_speech/stream",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Streams synthesized speech in realtime using the Lightning v2 model. The response is an HTTP Server-Sent Events stream whose `data:` frames each carry a JSON object containing a base64-encoded audio chunk; a final frame signals completion. The same path is also available as a bidirectional WebSocket (wss) endpoint - see the AsyncAPI document."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
