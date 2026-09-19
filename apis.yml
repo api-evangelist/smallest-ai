@@ -115,6 +115,8 @@ apis:
   humanURL: https://docs.smallest.ai/waves/api-reference
   baseURL: https://waves-api.smallest.ai/api/v1
   tags:
+  - Voice
+  tags_raw:
   - Voices
   properties:
   - type: OpenAPI
