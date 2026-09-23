@@ -1,0 +1,29 @@
+# Front Door AI Index — smallest-ai — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: smallest-ai
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: smallest.ai
+  final_host: smallest.ai
+  ownership: own
+  owner: smallest-ai
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 19
+  host_score: 19
+  density: 17.56
+  words: 1082
+  tiers:
+    agentic: 3
+    core: 14
+    model: 2
+  ambiguous: 17
+  top_terms:
+    AI: 14
+    agent: 10
+    intelligence: 7
+    agentic: 3
+    GPT: 2

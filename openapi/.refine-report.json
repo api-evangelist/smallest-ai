@@ -1,9 +1,7 @@
 {
   "provider": "smallest-ai",
   "sources": [
-    "smallest-ai-streaming-api-openapi.yml",
-    "smallest-ai-text-to-speech-api-openapi.yml",
-    "smallest-ai-voices-api-openapi.yml"
+    "_original/smallest-ai-openapi.yml"
   ],
   "outputs": [
     "smallest-ai-streaming-api-openapi.yml",
@@ -13,6 +11,14 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "smallest-ai-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "smallest-ai-streaming-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smallest-ai-text-to-speech-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smallest-ai-voices-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

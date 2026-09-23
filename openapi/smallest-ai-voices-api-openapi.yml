@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Smallest AI Waves Streaming Voices API
+  title: Smallest AI Waves Voices API
   description: The Smallest AI Waves text-to-speech API. Generates natural speech from text using the Lightning family of models with sub-100ms latency, streams audio in realtime over Server-Sent Events, lists prebuilt voices, and clones custom voices from short audio samples. All endpoints are authenticated with a Bearer API key. The realtime bidirectional WebSocket transport for streaming TTS is modeled in the companion AsyncAPI document (asyncapi/smallest-ai-asyncapi.yml).
   termsOfService: https://smallest.ai/terms
   contact:
@@ -22,7 +22,7 @@ paths:
       operationId: getVoices
       tags:
       - Voices
-      summary: List available voices.
+      summary: List available voices
       description: Returns the catalog of prebuilt voices available for synthesis, including each voice's identifier and metadata such as language, gender, and accent.
       responses:
         '200':
@@ -38,7 +38,7 @@ paths:
       operationId: addVoice
       tags:
       - Voices
-      summary: Clone a voice.
+      summary: Clone a voice
       description: Creates a new cloned voice from a short reference audio sample. The resulting voice identifier can be used as the `voice_id` in synthesis requests.
       requestBody:
         required: true
@@ -62,7 +62,7 @@ paths:
       operationId: getClonedVoices
       tags:
       - Voices
-      summary: List cloned voices.
+      summary: List cloned voices
       description: Returns the voices that the authenticated account has cloned.
       responses:
         '200':
@@ -78,7 +78,7 @@ paths:
       operationId: deleteVoice
       tags:
       - Voices
-      summary: Delete a cloned voice.
+      summary: Delete a cloned voice
       description: Permanently deletes a previously cloned voice owned by the account.
       parameters:
       - name: voiceId
@@ -100,6 +100,25 @@ paths:
           description: The voice was not found.
 components:
   schemas:
+    VoiceList:
+      type: object
+      properties:
+        voices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Voice'
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Error status indicator.
+        message:
+          type: string
+          description: Human-readable error message.
+        error:
+          type: string
+          description: Error code or detail, when present.
     AddVoiceRequest:
       type: object
       required:
@@ -114,18 +133,14 @@ components:
           type: string
           format: binary
           description: Reference audio sample (e.g. WAV/MP3) to clone the voice from.
-    Error:
+    DeleteResponse:
       type: object
       properties:
         status:
           type: string
-          description: Error status indicator.
+          example: success
         message:
           type: string
-          description: Human-readable error message.
-        error:
-          type: string
-          description: Error code or detail, when present.
     Voice:
       type: object
       properties:
@@ -149,21 +164,6 @@ components:
           description: Descriptive tags for the voice.
           items:
             type: string
-    DeleteResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          example: success
-        message:
-          type: string
-    VoiceList:
-      type: object
-      properties:
-        voices:
-          type: array
-          items:
-            $ref: '#/components/schemas/Voice'
   responses:
     ValidationError:
       description: The request body failed validation.

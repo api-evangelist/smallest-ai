@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Smallest AI Waves Streaming Text to Speech API
+  title: Smallest AI Waves Text to Speech API
   description: The Smallest AI Waves text-to-speech API. Generates natural speech from text using the Lightning family of models with sub-100ms latency, streams audio in realtime over Server-Sent Events, lists prebuilt voices, and clones custom voices from short audio samples. All endpoints are authenticated with a Bearer API key. The realtime bidirectional WebSocket transport for streaming TTS is modeled in the companion AsyncAPI document (asyncapi/smallest-ai-asyncapi.yml).
   termsOfService: https://smallest.ai/terms
   contact:
@@ -14,15 +14,15 @@ servers:
 security:
 - bearerAuth: []
 tags:
-- name: Text to Speech
+- name: Text To Speech
   description: Synthesize speech from text.
 paths:
   /lightning/get_speech:
     post:
       operationId: getSpeech
       tags:
-      - Text to Speech
-      summary: Synthesize speech from text.
+      - Text To Speech
+      summary: Synthesize speech from text
       description: Generates an audio file from the input text using a Lightning TTS model and the specified voice. Returns the synthesized audio as a binary response.
       requestBody:
         required: true
