@@ -99,6 +99,19 @@ paths:
         '404':
           description: The voice was not found.
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request body failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     VoiceList:
       type: object
@@ -107,6 +120,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Voice'
+    DeleteResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        message:
+          type: string
     Error:
       type: object
       properties:
@@ -133,14 +154,6 @@ components:
           type: string
           format: binary
           description: Reference audio sample (e.g. WAV/MP3) to clone the voice from.
-    DeleteResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          example: success
-        message:
-          type: string
     Voice:
       type: object
       properties:
@@ -164,19 +177,6 @@ components:
           description: Descriptive tags for the voice.
           items:
             type: string
-  responses:
-    ValidationError:
-      description: The request body failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

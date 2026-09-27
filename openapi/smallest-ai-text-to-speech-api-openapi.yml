@@ -46,8 +46,8 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   responses:
-    RateLimited:
-      description: Too many requests; the account rate limit was exceeded.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
@@ -58,25 +58,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
+    RateLimited:
+      description: Too many requests; the account rate limit was exceeded.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Error status indicator.
-        message:
-          type: string
-          description: Human-readable error message.
-        error:
-          type: string
-          description: Error code or detail, when present.
     GetSpeechRequest:
       type: object
       required:
@@ -125,6 +113,18 @@ components:
           type: boolean
           description: Whether to prepend a WAV header to the returned audio. Set false to receive raw PCM.
           default: true
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Error status indicator.
+        message:
+          type: string
+          description: Human-readable error message.
+        error:
+          type: string
+          description: Error code or detail, when present.
   securitySchemes:
     bearerAuth:
       type: http
