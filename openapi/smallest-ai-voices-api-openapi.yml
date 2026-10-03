@@ -99,27 +99,30 @@ paths:
         '404':
           description: The voice was not found.
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request body failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    VoiceList:
+    Voice:
       type: object
       properties:
-        voices:
+        voiceId:
+          type: string
+          description: Unique identifier used as `voice_id` in synthesis requests.
+        displayName:
+          type: string
+          description: Human-readable voice name.
+        language:
+          type: string
+          description: Primary language of the voice.
+        gender:
+          type: string
+          description: Voice gender, when available.
+        accent:
+          type: string
+          description: Voice accent, when available.
+        tags:
           type: array
+          description: Descriptive tags for the voice.
           items:
-            $ref: '#/components/schemas/Voice'
+            type: string
     DeleteResponse:
       type: object
       properties:
@@ -154,29 +157,26 @@ components:
           type: string
           format: binary
           description: Reference audio sample (e.g. WAV/MP3) to clone the voice from.
-    Voice:
+    VoiceList:
       type: object
       properties:
-        voiceId:
-          type: string
-          description: Unique identifier used as `voice_id` in synthesis requests.
-        displayName:
-          type: string
-          description: Human-readable voice name.
-        language:
-          type: string
-          description: Primary language of the voice.
-        gender:
-          type: string
-          description: Voice gender, when available.
-        accent:
-          type: string
-          description: Voice accent, when available.
-        tags:
+        voices:
           type: array
-          description: Descriptive tags for the voice.
           items:
-            type: string
+            $ref: '#/components/schemas/Voice'
+  responses:
+    ValidationError:
+      description: The request body failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
