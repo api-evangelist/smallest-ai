@@ -100,6 +100,25 @@ paths:
           description: The voice was not found.
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Error status indicator.
+        message:
+          type: string
+          description: Human-readable error message.
+        error:
+          type: string
+          description: Error code or detail, when present.
+    VoiceList:
+      type: object
+      properties:
+        voices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Voice'
     Voice:
       type: object
       properties:
@@ -131,18 +150,6 @@ components:
           example: success
         message:
           type: string
-    Error:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Error status indicator.
-        message:
-          type: string
-          description: Human-readable error message.
-        error:
-          type: string
-          description: Error code or detail, when present.
     AddVoiceRequest:
       type: object
       required:
@@ -157,22 +164,15 @@ components:
           type: string
           format: binary
           description: Reference audio sample (e.g. WAV/MP3) to clone the voice from.
-    VoiceList:
-      type: object
-      properties:
-        voices:
-          type: array
-          items:
-            $ref: '#/components/schemas/Voice'
   responses:
-    ValidationError:
-      description: The request body failed validation.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
+    ValidationError:
+      description: The request body failed validation.
       content:
         application/json:
           schema:

@@ -45,17 +45,18 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    AudioStreamChunk:
+    Error:
       type: object
-      description: JSON payload carried in each SSE `data:` frame. Frames carry a base64 audio chunk until a final frame sets `done` to true.
       properties:
-        audio:
+        status:
           type: string
-          format: byte
-          description: Base64-encoded raw PCM audio chunk.
-        done:
-          type: boolean
-          description: True on the final frame to indicate the stream has completed.
+          description: Error status indicator.
+        message:
+          type: string
+          description: Human-readable error message.
+        error:
+          type: string
+          description: Error code or detail, when present.
     StreamSpeechRequest:
       type: object
       required:
@@ -86,21 +87,20 @@ components:
           type: string
           description: Language code for synthesis.
           default: en
-    Error:
+    AudioStreamChunk:
       type: object
+      description: JSON payload carried in each SSE `data:` frame. Frames carry a base64 audio chunk until a final frame sets `done` to true.
       properties:
-        status:
+        audio:
           type: string
-          description: Error status indicator.
-        message:
-          type: string
-          description: Human-readable error message.
-        error:
-          type: string
-          description: Error code or detail, when present.
+          format: byte
+          description: Base64-encoded raw PCM audio chunk.
+        done:
+          type: boolean
+          description: True on the final frame to indicate the stream has completed.
   responses:
-    RateLimited:
-      description: Too many requests; the account rate limit was exceeded.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
@@ -111,8 +111,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
+    RateLimited:
+      description: Too many requests; the account rate limit was exceeded.
       content:
         application/json:
           schema:
