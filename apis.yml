@@ -49,7 +49,7 @@ tags_raw:
 - Realtime
 - Voice Agents
 created: '2026-06-21'
-modified: '2026-06-21'
+modified: '2026-10-06'
 specificationVersion: '0.23'
 apis:
 - aid: smallest-ai:atoms-voice-agents
@@ -132,6 +132,8 @@ apis:
   - type: Documentation
     url: https://docs.smallest.ai/waves/documentation/voice-cloning
 common:
+- url: https://smallest.ai/blog
+  type: Blog
 - type: AgenticAccess
   url: agentic-access/smallest-ai-agentic-access.yml
 - type: TrustCenter
