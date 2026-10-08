@@ -40,3 +40,26 @@ plans:
     as $0.05/minute
 rate_limit_statements:
 - Concurrency Included 20 Included
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - metered
+  units:
+  - compute
+  plans:
+  - name: Pay as you go
+    access: other
+    model: metered
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: Enterprise plan
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
