@@ -100,25 +100,20 @@ paths:
           description: The voice was not found.
 components:
   schemas:
-    Error:
+    AddVoiceRequest:
       type: object
+      required:
+      - displayName
+      - file
       properties:
-        status:
+        displayName:
           type: string
-          description: Error status indicator.
-        message:
+          description: Human-readable name for the cloned voice.
+          example: My Brand Voice
+        file:
           type: string
-          description: Human-readable error message.
-        error:
-          type: string
-          description: Error code or detail, when present.
-    VoiceList:
-      type: object
-      properties:
-        voices:
-          type: array
-          items:
-            $ref: '#/components/schemas/Voice'
+          format: binary
+          description: Reference audio sample (e.g. WAV/MP3) to clone the voice from.
     Voice:
       type: object
       properties:
@@ -142,6 +137,25 @@ components:
           description: Descriptive tags for the voice.
           items:
             type: string
+    VoiceList:
+      type: object
+      properties:
+        voices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Voice'
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Error status indicator.
+        message:
+          type: string
+          description: Human-readable error message.
+        error:
+          type: string
+          description: Error code or detail, when present.
     DeleteResponse:
       type: object
       properties:
@@ -150,20 +164,6 @@ components:
           example: success
         message:
           type: string
-    AddVoiceRequest:
-      type: object
-      required:
-      - displayName
-      - file
-      properties:
-        displayName:
-          type: string
-          description: Human-readable name for the cloned voice.
-          example: My Brand Voice
-        file:
-          type: string
-          format: binary
-          description: Reference audio sample (e.g. WAV/MP3) to clone the voice from.
   responses:
     Unauthorized:
       description: Missing or invalid API key.

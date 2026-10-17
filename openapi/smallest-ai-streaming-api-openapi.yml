@@ -45,18 +45,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Error status indicator.
-        message:
-          type: string
-          description: Human-readable error message.
-        error:
-          type: string
-          description: Error code or detail, when present.
     StreamSpeechRequest:
       type: object
       required:
@@ -87,6 +75,18 @@ components:
           type: string
           description: Language code for synthesis.
           default: en
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Error status indicator.
+        message:
+          type: string
+          description: Human-readable error message.
+        error:
+          type: string
+          description: Error code or detail, when present.
     AudioStreamChunk:
       type: object
       description: JSON payload carried in each SSE `data:` frame. Frames carry a base64 audio chunk until a final frame sets `done` to true.
@@ -99,6 +99,12 @@ components:
           type: boolean
           description: True on the final frame to indicate the stream has completed.
   responses:
+    RateLimited:
+      description: Too many requests; the account rate limit was exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Missing or invalid API key.
       content:
@@ -107,12 +113,6 @@ components:
             $ref: '#/components/schemas/Error'
     ValidationError:
       description: The request body failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests; the account rate limit was exceeded.
       content:
         application/json:
           schema:
